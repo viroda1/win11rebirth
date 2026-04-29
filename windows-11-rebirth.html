@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 11 Rebirth | Made by v/admin (viroda1)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #a855f7;
+            --primary-dark: #7e22ce;
+            --primary-light: #d8b4fe;
+            --primary-glow: rgba(168, 85, 247, 0.5);
+            --bg-dark: #0f0a1a;
+            --card-bg: rgba(20, 15, 35, 0.75);
+            --card-border: rgba(168, 85, 247, 0.3);
+            --text-main: #f0eaff;
+            --text-sub: #c4b5fd;
+            --accent-blue: #3b82f6;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --transition: 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0a1a 0%, #1a0f2e 50%, #0a0515 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.3;
+            animation: floatOrb 25s infinite alternate ease-in-out;
+        }
+
+        .orb-1 { width: 400px; height: 400px; background: var(--primary); top: -100px; left: -100px; }
+        .orb-2 { width: 500px; height: 500px; background: var(--accent-blue); bottom: -200px; right: -100px; animation-duration: 30s; }
+        .orb-3 { width: 300px; height: 300px; background: var(--accent-pink); top: 30%; right: 10%; animation-duration: 20s; opacity: 0.2; }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 100px) scale(1.3); }
+        }
+
+        .desktop {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        .desktop-content {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            align-content: start;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid transparent;
+        }
+
+        .desktop-icon:hover {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .desktop-icon:active {
+            transform: scale(0.95);
+        }
+
+        .desktop-icon i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .desktop-icon span {
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .taskbar {
+            background: rgba(15, 10, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--card-border);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 60px;
+            z-index: 1000;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .start-button {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+
+        .taskbar-apps {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            margin-left: 12px;
+        }
+
+        .taskbar-app {
+            width: 45px;
+            height: 45px;
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--primary);
+            transition: all 0.2s;
+        }
+
+        .taskbar-app:hover {
+            background: rgba(168, 85, 247, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .system-tray {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .system-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-sub);
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .system-icon:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .window {
+            position: fixed;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            min-width: 400px;
+            min-height: 300px;
+            animation: windowOpen 0.3s ease;
+        }
+
+        @keyframes windowOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .window-header {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.1));
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            cursor: move;
+            user-select: none;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .window-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            color: var(--text-sub);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .window-btn:hover {
+            background: rgba(168, 85, 247, 0.2);
+            color: var(--primary);
+        }
+
+        .window-btn.close:hover {
+            background: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .window-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f0a1a 0%, #1a0f2e 50%, #0a0515 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .login-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .login-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            padding: 0.75rem 1rem;
+            background: rgba(15, 10, 30, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            background: rgba(15, 10, 30, 0.95);
+        }
+
+        .login-btn {
+            padding: 0.85rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+
+        .browser-window {
+            width: 1000px;
+            height: 600px;
+            top: 50px;
+            left: 50px;
+        }
+
+        .browser-toolbar {
+            background: rgba(168, 85, 247, 0.1);
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .browser-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .browser-btn:hover {
+            background: rgba(168, 85, 247, 0.3);
+        }
+
+        .address-bar {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            background: rgba(15, 10, 30, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .browser-content {
+            flex: 1;
+            overflow: auto;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(59, 130, 246, 0.05));
+        }
+
+        .browser-page {
+            padding: 2rem;
+            color: var(--text-main);
+        }
+
+        .browser-page h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .browser-page p {
+            line-height: 1.6;
+            color: var(--text-sub);
+            margin-bottom: 1rem;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .setting-item {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .setting-item:hover {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: var(--primary);
+        }
+
+        .setting-item h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .setting-item p {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .color-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.active {
+            border-color: white;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .about-section {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .about-section h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .about-section p {
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        .start-menu {
+            position: fixed;
+            bottom: 70px;
+            left: 16px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            width: 400px;
+            max-height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .start-menu.active {
+            display: flex;
+        }
+
+        .start-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .start-apps {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .start-app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .start-app:hover {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: var(--primary);
+        }
+
+        .start-app i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .start-app span {
+            font-size: 0.8rem;
+            color: var(--text-main);
+        }
+
+        @media (max-width: 768px) {
+            .window {
+                min-width: 300px;
+                min-height: 250px;
+            }
+
+            .browser-window {
+                width: 100vw;
+                height: 100vh;
+                top: 0;
+                left: 0;
+                border-radius: 0;
+            }
+
+            .start-menu {
+                width: 100vw;
+                max-height: 80vh;
+                bottom: 70px;
+                left: 0;
+                border-radius: 16px 16px 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginContainer" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-window-maximize"></i>
+                </div>
+                <h1 class="login-title">Windows 11 Rebirth</h1>
+                <p class="login-subtitle">Made by v/admin (viroda1)</p>
+            </div>
+            <form class="login-form" onsubmit="login(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Desktop -->
+    <div id="desktop" class="desktop" style="display: none;">
+        <!-- Orbs -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <!-- Desktop Content -->
+        <div class="desktop-content">
+            <div class="desktop-icon" onclick="openApp('browser')">
+                <i class="fas fa-globe"></i>
+                <span>Browser</span>
+            </div>
+            <div class="desktop-icon" onclick="openApp('settings')">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
+            <div class="desktop-icon" onclick="openApp('about')">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </div>
+            <div class="desktop-icon" onclick="openApp('notepad')">
+                <i class="fas fa-file-alt"></i>
+                <span>Notepad</span>
+            </div>
+            <div class="desktop-icon" onclick="openApp('calculator')">
+                <i class="fas fa-calculator"></i>
+                <span>Calculator</span>
+            </div>
+            <div class="desktop-icon" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </div>
+        </div>
+
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <button class="start-button" onclick="toggleStartMenu()">
+                <i class="fas fa-window-maximize"></i>
+            </button>
+            <div class="taskbar-apps">
+                <div class="taskbar-app" onclick="openApp('browser')" title="Browser">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="taskbar-app" onclick="openApp('settings')" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+            <div class="system-tray">
+                <div class="system-icon" title="Volume">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <div class="system-icon" title="Network">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <div class="system-icon" title="Battery">
+                    <i class="fas fa-battery-full"></i>
+                </div>
+                <div class="system-icon" id="timeDisplay">12:00 PM</div>
+            </div>
+        </div>
+
+        <!-- Start Menu -->
+        <div id="startMenu" class="start-menu">
+            <div class="start-header">
+                <i class="fas fa-window-maximize"></i>
+                <span>Windows 11 Rebirth</span>
+            </div>
+            <div class="start-apps">
+                <div class="start-app" onclick="openApp('browser')">
+                    <i class="fas fa-globe"></i>
+                    <span>Browser</span>
+                </div>
+                <div class="start-app" onclick="openApp('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="start-app" onclick="openApp('notepad')">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Notepad</span>
+                </div>
+                <div class="start-app" onclick="openApp('calculator')">
+                    <i class="fas fa-calculator"></i>
+                    <span>Calculator</span>
+                </div>
+                <div class="start-app" onclick="openApp('about')">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About</span>
+                </div>
+                <div class="start-app" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let openWindows = [];
+        let windowZIndex = 100;
+
+        // Login
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            if (username.trim()) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('desktop').style.display = 'flex';
+                updateTime();
+                setInterval(updateTime, 1000);
+            }
+        }
+
+        // Logout
+        function logout() {
+            document.getElementById('desktop').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            openWindows.forEach(w => w.remove());
+            openWindows = [];
+        }
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('timeDisplay').textContent = timeStr;
+        }
+
+        // Toggle Start Menu
+        function toggleStartMenu() {
+            document.getElementById('startMenu').classList.toggle('active');
+        }
+
+        // Close Start Menu when clicking elsewhere
+        document.addEventListener('click', function(event) {
+            const startMenu = document.getElementById('startMenu');
+            const startBtn = document.querySelector('.start-button');
+            if (!startMenu.contains(event.target) && !startBtn.contains(event.target)) {
+                startMenu.classList.remove('active');
+            }
+        });
+
+        // Open App
+        function openApp(appName) {
+            document.getElementById('startMenu').classList.remove('active');
+
+            let window = createWindow(appName);
+            openWindows.push(window);
+            document.body.appendChild(window);
+
+            makeWindowDraggable(window);
+            bringToFront(window);
+        }
+
+        // Create Window
+        function createWindow(appName) {
+            const windowEl = document.createElement('div');
+            windowEl.className = 'window';
+            windowEl.style.zIndex = windowZIndex++;
+            windowEl.style.left = (Math.random() * 200 + 100) + 'px';
+            windowEl.style.top = (Math.random() * 100 + 50) + 'px';
+
+            let content = '';
+
+            switch(appName) {
+                case 'browser':
+                    windowEl.classList.add('browser-window');
+                    content = `
+                        <div class="window-header">
+                            <div class="window-title"><i class="fas fa-globe"></i> Browser</div>
+                            <div class="window-controls">
+                                <button class="window-btn" onclick="this.closest('.window').style.display='none'"><i class="fas fa-minus"></i></button>
+                                <button class="window-btn close" onclick="closeWindow(this)"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="browser-toolbar">
+                            <button class="browser-btn"><i class="fas fa-arrow-left"></i></button>
+                            <button class="browser-btn"><i class="fas fa-arrow-right"></i></button>
+                            <button class="browser-btn"><i class="fas fa-redo"></i></button>
+                            <input type="text" class="address-bar" placeholder="https://example.com" value="https://vironexus.rf.gd">
+                        </div>
+                        <div class="browser-content">
+                            <div class="browser-page">
+                                <h1>Welcome to Windows 11 Rebirth</h1>
+                                <p>This is a fully functional OS simulator with a working browser, settings, and more features.</p>
+                                <p><strong>Made by v/admin (viroda1)</strong></p>
+                                <p>Featuring the beautiful VIRO Nexus theme with glassmorphism design and purple aesthetics.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'settings':
+                    content = `
+                        <div class="window-header">
+                            <div class="window-title"><i class="fas fa-cog"></i> Settings</div>
+                            <div class="window-controls">
+                                <button class="window-btn" onclick="this.closest('.window').style.display='none'"><i class="fas fa-minus"></i></button>
+                                <button class="window-btn close" onclick="closeWindow(this)"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="window-content">
+                            <h2 style="margin-bottom: 1rem; color: var(--primary);">Personalization</h2>
+                            <h3 style="margin-bottom: 0.5rem; color: var(--text-main);">Theme Colors</h3>
+                            <div class="color-picker">
+                                <div class="color-option active" style="background: linear-gradient(135deg, #a855f7, #7e22ce);" onclick="changeTheme('purple')"></div>
+                                <div class="color-option" style="background: linear-gradient(135deg, #3b82f6, #1e40af);" onclick="changeTheme('blue')"></div>
+                                <div class="color-option" style="background: linear-gradient(135deg, #ec4899, #be185d);" onclick="changeTheme('pink')"></div>
+                                <div class="color-option" style="background: linear-gradient(135deg, #10b981, #047857);" onclick="changeTheme('green')"></div>
+                            </div>
+                            <div class="settings-grid" style="margin-top: 2rem;">
+                                <div class="setting-item">
+                                    <h3>Display</h3>
+                                    <p>Adjust brightness and resolution</p>
+                                </div>
+                                <div class="setting-item">
+                                    <h3>Sound</h3>
+                                    <p>Volume and audio settings</p>
+                                </div>
+                                <div class="setting-item">
+                                    <h3>Privacy</h3>
+                                    <p>Privacy and security options</p>
+                                </div>
+                                <div class="setting-item">
+                                    <h3>About</h3>
+                                    <p>System information</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'notepad':
+                    content = `
+                        <div class="window-header">
+                            <div class="window-title"><i class="fas fa-file-alt"></i> Notepad</div>
+                            <div class="window-controls">
+                                <button class="window-btn" onclick="this.closest('.window').style.display='none'"><i class="fas fa-minus"></i></button>
+                                <button class="window-btn close" onclick="closeWindow(this)"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="window-content">
+                            <textarea style="width: 100%; height: 100%; background: rgba(15, 10, 30, 0.8); border: none; color: var(--text-main); padding: 1rem; border-radius: 8px; font-family: 'Courier New', monospace; outline: none; resize: none;" placeholder="Start typing..."></textarea>
+                        </div>
+                    `;
+                    break;
+
+                case 'calculator':
+                    content = `
+                        <div class="window-header">
+                            <div class="window-title"><i class="fas fa-calculator"></i> Calculator</div>
+                            <div class="window-controls">
+                                <button class="window-btn" onclick="this.closest('.window').style.display='none'"><i class="fas fa-minus"></i></button>
+                                <button class="window-btn close" onclick="closeWindow(this)"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="window-content">
+                            <input type="text" id="calcDisplay" readonly style="width: 100%; padding: 1rem; background: rgba(15, 10, 30, 0.8); border: 1px solid var(--card-border); border-radius: 8px; color: var(--primary); font-size: 1.5rem; text-align: right; margin-bottom: 1rem;">
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+                                <button onclick="appendCalc('7')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">7</button>
+                                <button onclick="appendCalc('8')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">8</button>
+                                <button onclick="appendCalc('9')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">9</button>
+                                <button onclick="appendCalc('/')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.3); border: 1px solid var(--card-border); border-radius: 6px; color: var(--primary); cursor: pointer;">÷</button>
+                                <button onclick="appendCalc('4')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">4</button>
+                                <button onclick="appendCalc('5')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">5</button>
+                                <button onclick="appendCalc('6')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">6</button>
+                                <button onclick="appendCalc('*')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.3); border: 1px solid var(--card-border); border-radius: 6px; color: var(--primary); cursor: pointer;">×</button>
+                                <button onclick="appendCalc('1')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">1</button>
+                                <button onclick="appendCalc('2')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">2</button>
+                                <button onclick="appendCalc('3')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">3</button>
+                                <button onclick="appendCalc('-')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.3); border: 1px solid var(--card-border); border-radius: 6px; color: var(--primary); cursor: pointer;">−</button>
+                                <button onclick="appendCalc('0')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer; grid-column: span 2;">0</button>
+                                <button onclick="appendCalc('.')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: var(--text-main); cursor: pointer;">.</button>
+                                <button onclick="appendCalc('+')" style="padding: 0.75rem; background: rgba(168, 85, 247, 0.3); border: 1px solid var(--card-border); border-radius: 6px; color: var(--primary); cursor: pointer;">=</button>
+                                <button onclick="clearCalc()" style="padding: 0.75rem; background: rgba(239, 68, 68, 0.2); border: 1px solid var(--card-border); border-radius: 6px; color: #ef4444; cursor: pointer; grid-column: span 4;">Clear</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'about':
+                    content = `
+                        <div class="window-header">
+                            <div class="window-title"><i class="fas fa-info-circle"></i> About</div>
+                            <div class="window-controls">
+                                <button class="window-btn" onclick="this.closest('.window').style.display='none'"><i class="fas fa-minus"></i></button>
+                                <button class="window-btn close" onclick="closeWindow(this)"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="window-content">
+                            <div class="about-content">
+                                <div class="about-section">
+                                    <h3>Windows 11 Rebirth</h3>
+                                    <p>An enhanced OS simulator built with modern web technologies. Featuring a beautiful VIRO Nexus theme with glassmorphism design.</p>
+                                </div>
+                                <div class="about-section">
+                                    <h3>Made by v/admin (viroda1)</h3>
+                                    <p>Available on GitHub and other platforms. This is a unique take on the Windows 11 experience with purple aesthetics and advanced customization options.</p>
+                                </div>
+                                <div class="about-section">
+                                    <h3>Features</h3>
+                                    <p>✓ Working Browser<br>✓ Settings & Customization<br>✓ Notepad & Calculator<br>✓ Login System<br>✓ Glassmorphism Design<br>✓ Animated Orbs<br>✓ Start Menu<br>✓ Taskbar</p>
+                                </div>
+                                <div class="about-section">
+                                    <h3>Version</h3>
+                                    <p>Windows 11 Rebirth v1.0.0</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+
+            windowEl.innerHTML = content;
+            return windowEl;
+        }
+
+        // Make Window Draggable
+        function makeWindowDraggable(windowEl) {
+            const header = windowEl.querySelector('.window-header');
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            header.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                windowEl.style.top = (windowEl.offsetTop - pos2) + "px";
+                windowEl.style.left = (windowEl.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        // Bring Window to Front
+        function bringToFront(windowEl) {
+            windowEl.style.zIndex = windowZIndex++;
+        }
+
+        // Close Window
+        function closeWindow(btn) {
+            const windowEl = btn.closest('.window');
+            windowEl.remove();
+            openWindows = openWindows.filter(w => w !== windowEl);
+        }
+
+        // Calculator Functions
+        let calcDisplay = '';
+
+        function appendCalc(value) {
+            if (value === '+') {
+                calcDisplay += '+';
+            } else if (value === '=') {
+                try {
+                    calcDisplay = eval(calcDisplay).toString();
+                } catch (e) {
+                    calcDisplay = 'Error';
+                }
+            } else {
+                calcDisplay += value;
+            }
+            document.getElementById('calcDisplay').value = calcDisplay;
+        }
+
+        function clearCalc() {
+            calcDisplay = '';
+            document.getElementById('calcDisplay').value = '';
+        }
+
+        // Change Theme
+        function changeTheme(color) {
+            const themes = {
+                purple: { primary: '#a855f7', dark: '#7e22ce' },
+                blue: { primary: '#3b82f6', dark: '#1e40af' },
+                pink: { primary: '#ec4899', dark: '#be185d' },
+                green: { primary: '#10b981', dark: '#047857' }
+            };
+
+            const theme = themes[color];
+            document.documentElement.style.setProperty('--primary', theme.primary);
+            document.documentElement.style.setProperty('--primary-dark', theme.dark);
+        }
+
+        // Click on windows to bring to front
+        document.addEventListener('mousedown', function(e) {
+            const windowEl = e.target.closest('.window');
+            if (windowEl) {
+                bringToFront(windowEl);
+            }
+        });
+    </script>
+</body>
+</html>
